@@ -31,6 +31,7 @@ print (x.inserted_id)
 # mycol.update_one_ledger({"_id": inserted_id}, params, client)
 
 # # 3. Update the inserted document again
+# inserted_id = x.inserted_id
 # params = {"$set": {"name": "John 3"}}
 # mycol.update_one_ledger({"_id": inserted_id}, params, client)
 

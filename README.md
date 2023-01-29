@@ -45,25 +45,38 @@ Specifically, the libray defines the following five functions:
 5) `init_ledger`: binds the above four functions to the collection python object, so that a developer can invoke these functions on a collection object as it would do so for any other collection function.
 
 
-## 4. Developing an Application
+## 4. Environment setup (Mac OS)
 
-Clone the repository:
-```
-git clone git@github.com:salmanbaset/mdb_ledger.git
-cd mdb_ledger
-```
+You need to install the following dependencies:
 
-Setup virtualenv and install dependencies:
-```
-virtual env
-pip install -r requirements.txt
-```
+* `python3` (brew install python@3.9)
+* `pip3`
+
+
+Follow the instructions on this [page](https://www.mongodb.com/docs/v6.0/tutorial/install-mongodb-on-os-x/
+) to install MongoDB 6.0 community edition.
+
+Install [mlaunch](https://rueckstiess.github.io/mtools/mlaunch.html), the tool needed to a three node MongoDB database replica set locally on your machine. 
 
 Locally setup a MongoDB replica set or use Atlas to create a M10+ cluster. Since the library
 uses Transactions, a replica set must be launched. It can be created on your local machine 
 through the following command:
 ```
-mlaunch --replicaset --name ledger-rs --port 27001
+mlaunch --replicaset --name ledger-rs --port 27017
+```
+
+## 5. Developing an Application
+
+Clone the repository:
+```
+git clone git@github.com:mongodb-labs/ledger.git
+cd mdb_ledger
+```
+
+Setup a python virtual env and install dependencies:
+```
+python3 -m venv venv
+pip3 install -r requirements.txt
 ```
 
 Import the ledger library, create connection to your Mongo instance, and call the `init_ledger` function on the collection that will act as a ledger. This function dynamically adds the functions mentioned above to the collection object.
@@ -73,7 +86,7 @@ import os
 import ledger
 import pymongo
 
-uriString = 'mongodb://localhost:27001,localhost:27002,localhost:27003'
+uriString = 'mongodb://localhost:27017,localhost:27018,localhost:27019'
 client = pymongo.MongoClient(uriString, replicaSet='ledger-rs')
 
 mydb = client['mydatabase']
